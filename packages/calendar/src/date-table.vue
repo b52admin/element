@@ -60,7 +60,7 @@ export default {
       this.$emit('pick', date);
     },
 
-    cellRenderProxy({ text, type }) {
+    cellRenderProxy({ text, type },index) {
       let render = this.elCalendar.$scopedSlots.dateCell;
       if (!render) return <span>{ text }</span>;
 
@@ -69,9 +69,10 @@ export default {
       const data = {
         isSelected: this.selectedDay === day,
         type: `${type}-month`,
-        day
+        day,
+        index:index
       };
-      return render({ date, data });
+      return render({ date, data});
     }
   },
 
@@ -176,7 +177,7 @@ export default {
                   onClick={this.pickDay.bind(this, cell)}>
                   <div class="el-calendar-day">
                     {
-                      this.cellRenderProxy(cell)
+                      this.cellRenderProxy(cell,index)
                     }
                   </div>
                 </td>)
