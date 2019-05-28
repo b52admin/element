@@ -4,7 +4,7 @@ import { range as rangeArr, getFirstDayOfMonth, getPrevMonthLastDays, getMonthDa
 export default {
 
   props: {
-    selectedDay: String, // formated date yyyy-MM-dd
+    selectedDay: String, 
     range: {
       type: Array,
       validator(val) {
@@ -60,7 +60,7 @@ export default {
       this.$emit('pick', date);
     },
 
-    cellRenderProxy({ text, type },index) {
+    cellRenderProxy({ text, type },index,row) {
       let render = this.elCalendar.$scopedSlots.dateCell;
       if (!render) return <span>{ text }</span>;
 
@@ -70,7 +70,8 @@ export default {
         isSelected: this.selectedDay === day,
         type: `${type}-month`,
         day,
-        index:index
+        index:index,
+        row:row
       };
       return render({ date, data});
     }
@@ -147,6 +148,7 @@ export default {
   },
 
   render() {
+    var i = 0;
     const thead = this.hideHeader ? null : (<thead>
       {
         this.DAYS.map(day => <th key={day}>{ day }</th>)
@@ -177,7 +179,7 @@ export default {
                   onClick={this.pickDay.bind(this, cell)}>
                   <div class="el-calendar-day">
                     {
-                      this.cellRenderProxy(cell,index)
+                      this.cellRenderProxy(cell,index,++i)
                     }
                   </div>
                 </td>)

@@ -9,7 +9,7 @@
         v-if="validatedRange.length === 0">
         <el-button-group>
           <el-button
-            type="plain"
+            type="plain" 
             size="mini"
             @click="selectDate('prev-month')">
             {{ t('el.datepicker.prevMonth') }}
@@ -97,6 +97,10 @@ export default {
 
   methods: {
     pickDay(day) {
+       this.$emit('onclick',day);
+      this.realSelectedDay = day;
+    },
+     pickDay1(day) { 
       this.realSelectedDay = day;
     },
 
@@ -107,14 +111,17 @@ export default {
       let day = '';
       if (type === 'prev-month') {
         day = `${this.prevMonthDatePrefix}-01`;
+        this.$emit('prev-month',day);
       } else if (type === 'next-month') {
         day = `${this.nextMonthDatePrefix}-01`;
+         this.$emit('next-month',day);
       } else {
         day = this.formatedToday;
+        this.$emit('today-month',day);
       }
 
       if (day === this.formatedDate) return;
-      this.pickDay(day);
+      this.pickDay1(day);
     },
 
     toDate(val) {
